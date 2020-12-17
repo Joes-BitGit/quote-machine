@@ -16,7 +16,7 @@ window.API = {
   }
 }
 
-class Loading extends React.Component {
+class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,7 +25,7 @@ class Loading extends React.Component {
   }
 
   componentDidMount() {
-    const terminator = `${this.state.text}...`;
+    const terminator = `${this.state.text}..`;
 
     this.interval = window.setInterval(() => {
       this.state.text === terminator
@@ -58,17 +58,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log('--Mounting--');
+
     this.fetchQuote()
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log('--Updating--');
-    console.log('prevState: ', prevState);
-    console.log('prevProps: ', prevProps);
-  }
 
   fetchQuote() {
+
 
     this.setState({
       loading: true
@@ -77,32 +73,60 @@ class App extends Component {
     window.API.fetchRandomQuote()
       .then((data) => {
         // should update local state 
-        console.log('API Call:', data);
+        // console.log('API Call:', data);
         this.setState({
           quote: data.content,
           author: data.author,
           loading: false
         })
       })
+
+    let hexColor = getRandomColor();
+    // console.log(hexColor);
+
+    document.body.style.backgroundColor = hexColor;
+
   }
 
 
   render() {
+
     return (
-      <div>
-        <h1>Hello App!</h1>
+      <main className='parent'>
+        <h1>Hello Quote Machine!</h1>
+
         {this.state.loading === true
           ? <Loading />
-          : <div id='quote-box'>
+          :
+          <div id='quote-box'>
             <p id='text'>{this.state.quote}</p>
             <p id="author">{this.state.author}</p>
-            <button><a href="http://www.twitter.com/" target="_blank" rel="noopener noreferrer" id='tweet-quote'>Twitter</a></button>
+            <button>
+              <a href={`http://www.twitter.com/intent/tweet?text=${this.state.quote}%20-${this.state.author}&hashtags=quotes`} target="_blank" rel="noopener noreferrer" id='tweet-quote'>Tweet</a>
+            </button>
+
             <button id='new-quote' type='submit' onClick={this.fetchQuote}>New Quote</button>
+
           </div>
+
         }
-      </div>
+      </main>
     )
   }
+}
+
+const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+
+function getRandomColor() {
+  let hexColor = '#';
+  for (let i = 0; i < 6; i++) {
+    hexColor += hex[getRandomNumber()];
+  }
+  return hexColor;
+}
+
+function getRandomNumber() {
+  return Math.floor(Math.random() * hex.length);
 }
 
 // We export the component as App to load it in index.js
