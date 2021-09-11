@@ -7,7 +7,6 @@ window.API = {
       .then(response => response.json())
       .then(data =>
         data
-        // console.log(`${data.content} —${data.author}`)
       )
       .catch((error) => {
         console.warn(error)
@@ -31,7 +30,7 @@ class Loading extends Component {
       this.state.text === terminator
         ? this.setState(() => ({ text: 'LOADING' }))
         : this.setState((prevState) => ({ text: prevState.text + '.' }))
-    }, 100)
+    }, 350)
   }
 
   componentWillUnmount() {
@@ -58,22 +57,19 @@ class App extends Component {
   }
 
   componentDidMount() {
-
     this.fetchQuote()
   }
 
 
   fetchQuote() {
-
-
+    // start loading
     this.setState({
       loading: true
     })
-
+    // call global function returns a promise, hence .then callback
     window.API.fetchRandomQuote()
       .then((data) => {
         // should update local state 
-        // console.log('API Call:', data);
         this.setState({
           quote: data.content,
           author: data.author,
@@ -81,11 +77,11 @@ class App extends Component {
         })
       })
 
+    // grabs a hex color from the function
+    // sets the background
+    // this will happen every time the app component renders
     let hexColor = getRandomColor();
-    // console.log(hexColor);
-
     document.body.style.backgroundColor = hexColor;
-
   }
 
 
@@ -115,6 +111,7 @@ class App extends Component {
   }
 }
 
+// random color generator
 const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
 
 function getRandomColor() {
