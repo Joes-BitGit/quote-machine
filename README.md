@@ -1,3 +1,4 @@
+<img width="1680" alt="init-state" src="https://user-images.githubusercontent.com/32423851/132934038-6d79bf9b-0591-4d36-9537-0feaede38c8d.png">
 ## Synopsis
 
 At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
